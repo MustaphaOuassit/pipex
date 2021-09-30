@@ -6,7 +6,7 @@
 #    By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:43:38 by mouassit          #+#    #+#              #
-#    Updated: 2021/09/08 11:49:45 by mouassit         ###   ########.fr        #
+#    Updated: 2021/09/30 10:35:35 by mouassit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIB = pipex.h \
 SRC = pipex.c \
 	get_next_line.c \
 	get_next_line_utils.c \
+	libft.c
 
 all : $(NAME)
 
