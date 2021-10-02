@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/01 12:04:23 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/02 11:26:00 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ int main(int argc, char **argv, char **envp)
         if ((fd > 0) && (fd_o > 0))
         {
             pipe(pipe_nb);
-            cmd = ft_split(argv[2],' ');
             id = fork();
             if(id == 0)
             {
+                cmd = ft_split(argv[2],' ');
                 path = get_path(envp,cmd[0]);
                 if(path)
                 {
                     close(pipe_nb[0]);
                     dup2(fd,STDIN_FILENO);
                     dup2(pipe_nb[1],STDOUT_FILENO);
-                    execve(path, cmd, envp);   
+                    execve(path, cmd, envp);
                 }
                 else
                     write(1,"Error cmd\n",11);
@@ -54,12 +54,11 @@ int main(int argc, char **argv, char **envp)
                     close(pipe_nb[1]);
                     dup2(pipe_nb[0],STDIN_FILENO);
                     dup2(fd_o,STDOUT_FILENO);
-                    execve(path, cmd, envp);   
+                    execve(path, cmd, envp);  
                 }
                 else
                     write(1,"Error cmd\n",11);
             }
-
         }
         else
             write(1,"Error File\n",11);
