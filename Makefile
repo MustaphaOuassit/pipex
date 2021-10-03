@@ -16,15 +16,15 @@ NAME = pipex
 LIB = pipex.h \
 
 SRC = pipex.c \
-	get_next_line.c \
-	get_next_line_utils.c \
 	libft.c \
+	libft_utils.c \
+	libft_cnt.c \
 	pipex_utils.c
 
 all : $(NAME)
 
-$(NAME): $(SRC) $(LIB)
-	@gcc -Wall -Wextra -Werror  -I /Users/mouassit/Desktop/push_swap $(SRC) -D BUFFER_SIZE=1 -o $(NAME)
+$(NAME): $(SRC)
+	@gcc -Wall -Wextra -Werror $(SRC) -o $(NAME)
 
 clean:
 	@rm -rf $(NAME)

@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:50:03 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/01 09:25:41 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/03 12:03:31 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
+int	g_pipe_nb[2];
+
 int		get_next_line(int fd, char **line);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char*s, int c);
 char	*ft_strdup(const char *s1);
 char	**ft_split(char const *s, char c);
-char    *get_path(char **envp, char *cmd);
-int     ft_strncmp(const char *s1, const char *s2);
+char	*get_path(char **envp, char *cmd);
+int		ft_strncmp(const char *s1, const char *s2);
 size_t	ft_strlen(const char *str);
+int		skip(int i, char const *s, int c);
 void	*fr_ee(char **words, int j);
+void	free_two(char **table);
+void	parent_process(char *argv, int file, char **envp);
+void	child_process(char *argv, int file, char **envp);
 
 #endif

@@ -6,18 +6,18 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:35:22 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/01 09:27:00 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/03 10:49:20 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int		ft_separator(char str, char c)
+int	ft_separator(char str, char c)
 {
 	return (str != c && str != '\n' && str != '\t');
 }
 
-int		ft_count_words(char *str, char c)
+int	ft_count_words(char *str, char c)
 {
 	int		i;
 	int		in_word;
@@ -42,7 +42,7 @@ int		ft_count_words(char *str, char c)
 	return (count);
 }
 
-int		ft_word_length(char *str, int i, char c)
+int	ft_word_length(char *str, int i, char c)
 {
 	int		length;
 
@@ -72,16 +72,17 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	j = 0;
-	if (!(words = (char**)malloc(sizeof(char*) *
-					(ft_count_words((char*)s, c) + 1))) || !s)
+	words = (char **)malloc(sizeof(char *)
+			* (ft_count_words((char *)s, c) + 1));
+	if (!words || !s)
 		return (0);
-	while (s[i] != '\0' && j < ft_count_words((char*)s, c))
+	while (s[i] != '\0' && j < ft_count_words((char *)s, c))
 	{
 		k = 0;
-		while (s[i] == c || s[i] == '\n' || s[i] == '\t')
-			i++;
-		if (!(words[j] = (char*)malloc(sizeof(char) *
-						ft_word_length((char*)s, i, c) + 1)))
+		i = skip(i, s, c);
+		words[j] = (char *)malloc(sizeof(char)
+				* ft_word_length((char *)s, i, c) + 1);
+		if (!words[j])
 			return (fr_ee(words, j));
 		while (ft_separator(s[i], c) && s[i] != '\0')
 			words[j][k++] = s[i++];
@@ -89,30 +90,4 @@ char	**ft_split(char const *s, char c)
 	}
 	words[j] = 0;
 	return (words);
-}
-
-int	ft_strncmp(const char *s1, const char *s2)
-{
-	unsigned	int	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
-}
-
-size_t		ft_strlen(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
 }
