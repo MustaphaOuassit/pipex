@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 08:44:18 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 11:52:01 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/09 12:57:47 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	parent_process(char *argv, int file, char **envp)
 	{
 		write(1, cmd[0], ft_strlen(cmd[0]));
 		write(1,": command not found\n",20);
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 }
 
@@ -120,6 +120,6 @@ void	child_process(char *argv, int file, char **envp)
 	{
 		write(1, cmd[0], ft_strlen(cmd[0]));
 		write(1,": command not found\n",20);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }

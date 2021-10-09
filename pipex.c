@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 11:56:14 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/09 12:56:37 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	main(int argc, char **argv, char **envp)
 	int	fd_inp;
 	int	fd_out;
 	int	id;
+	int child;
+	int status;
 
 	fd_inp = 0;
 	fd_out = 0;
@@ -29,9 +31,13 @@ int	main(int argc, char **argv, char **envp)
 			pipe(g_pipe_nb);
 			id = fork();
 			if (id == 0)
-				parent_process(argv[2], fd_inp, envp);
-			else
+			parent_process(argv[2], fd_inp, envp);
+			child = fork();
+			if(child == 0)
 				child_process(argv[3], fd_out, envp);
+			wait(&status);
+			if(WIFEXITED(status))
+				exit(WEXITSTATUS(status));
 		}
 		else
 		{
