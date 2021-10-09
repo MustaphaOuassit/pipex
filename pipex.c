@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/03 10:23:15 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/09 10:58:00 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	main(int argc, char **argv, char **envp)
 				child_process(argv[3], fd_out, envp);
 		}
 		else
-			write(1, "Error File\n", 11);
+			perror(ft_check_file(fd_inp,fd_out,argv[1],argv[2]));
 	}
 	else
-		write(1, "Error\n", 6);
+		write(1, "Error arguments\n", 17);
 	return (0);
 }

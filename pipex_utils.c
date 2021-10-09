@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 08:44:18 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/03 10:31:37 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/09 11:12:37 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*path_line(char **line, char *cmd)
 		free(cmdjoin);
 		free(cmdlist);
 	}
+	free_two(line);
 	return (NULL);
 }
 
@@ -71,7 +72,6 @@ char	*get_path(char **envp, char *cmd)
 			path = path_line(line, cmd);
 			if (path)
 				return (path);
-			free_two(line);
 			break ;
 		}
 		free_two(line);
@@ -95,7 +95,10 @@ void	parent_process(char *argv, int file, char **envp)
 		execve(path, cmd, envp);
 	}
 	else
-		write(1, "Error cmd\n", 11);
+	{
+		write(1, cmd[0], ft_strlen(cmd[0]));
+		write(1,": command not found\n",20);
+	}
 }
 
 void	child_process(char *argv, int file, char **envp)
@@ -113,5 +116,8 @@ void	child_process(char *argv, int file, char **envp)
 		execve(path, cmd, envp);
 	}
 	else
-		write(1, "Error cmd\n", 11);
+	{
+		write(1, cmd[0], ft_strlen(cmd[0]));
+		write(1,": command not found\n",20);
+	}
 }
