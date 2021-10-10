@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 08:44:18 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 12:57:47 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/10 08:44:58 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,46 +80,66 @@ char	*get_path(char **envp, char *cmd)
 	return (path);
 }
 
-void	parent_process(char *argv, int file, char **envp)
+void	first_child(char *argv, char *name_file, char **envp)
 {
 	char	**cmd;
 	char	*path;
+	int		fd_inp;
 
-	cmd = ft_split(argv, ' ');
-	path = get_path(envp, cmd[0]);
-	if (path)
+	fd_inp = open(name_file, O_RDONLY);
+	if(fd_inp > 0)
 	{
-		close(g_pipe_nb[0]);
-		dup2(file, STDIN_FILENO);
-		dup2(g_pipe_nb[1], STDOUT_FILENO);
-		execve(path, cmd, envp);
+		cmd = ft_split(argv, ' ');
+		path = get_path(envp, cmd[0]);
+		if (path)
+		{
+			close(g_pipe_nb[0]);
+			dup2(fd_inp, STDIN_FILENO);
+			dup2(g_pipe_nb[1], STDOUT_FILENO);
+			execve(path, cmd, envp);
+		}
+		else
+		{
+			write(1, cmd[0], ft_strlen(cmd[0]));
+			write(1,": command not found\n",20);
+			exit(0);
+		}	
 	}
 	else
 	{
-		write(1, cmd[0], ft_strlen(cmd[0]));
-		write(1,": command not found\n",20);
-		exit(0);
+		perror(name_file);
+		exit(EXIT_FAILURE);
 	}
 }
 
-void	child_process(char *argv, int file, char **envp)
+void	second_child(char *argv, char *name_file, char **envp)
 {
 	char	**cmd;
 	char	*path;
+	int		fd_out;
 
-	cmd = ft_split(argv, ' ');
-	path = get_path(envp, cmd[0]);
-	if (path)
+	fd_out = open(name_file, O_WRONLY | O_CREAT | O_TRUNC | O_RDONLY, 0777);
+	if(fd_out > 0)
 	{
-		close(g_pipe_nb[1]);
-		dup2(g_pipe_nb[0], STDIN_FILENO);
-		dup2(file, STDOUT_FILENO);
-		execve(path, cmd, envp);
+		cmd = ft_split(argv, ' ');
+		path = get_path(envp, cmd[0]);
+		if (path)
+		{
+			close(g_pipe_nb[1]);
+			dup2(g_pipe_nb[0], STDIN_FILENO);
+			dup2(fd_out, STDOUT_FILENO);
+			execve(path, cmd, envp);
+		}
+		else
+		{
+			write(1, cmd[0], ft_strlen(cmd[0]));
+			write(1,": command not found\n",20);
+			exit(127);
+		}		
 	}
 	else
 	{
-		write(1, cmd[0], ft_strlen(cmd[0]));
-		write(1,": command not found\n",20);
-		exit(127);
+		perror(name_file);
+		exit(EXIT_FAILURE);
 	}
 }

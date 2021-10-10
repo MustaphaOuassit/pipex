@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 12:56:37 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/10 12:53:36 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,29 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	fd_inp;
-	int	fd_out;
-	int	id;
-	int child;
+	int child[2];
 	int status;
-
-	fd_inp = 0;
-	fd_out = 0;
+	int i;
+	
+	i = 0;
 	if (argc == 5)
 	{
-		fd_inp = open(argv[1], O_RDONLY);
-		fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC | O_RDONLY, 0777);
-		if ((fd_inp > 0) && (fd_out > 0))
-		{
-			pipe(g_pipe_nb);
-			id = fork();
-			if (id == 0)
-			parent_process(argv[2], fd_inp, envp);
-			child = fork();
-			if(child == 0)
-				child_process(argv[3], fd_out, envp);
-			wait(&status);
-			if(WIFEXITED(status))
-				exit(WEXITSTATUS(status));
-		}
+		pipe(g_pipe_nb);
+		child[0] = fork();
+		if (child[0] == 0)
+			first_child(argv[2], argv[1], envp);
 		else
 		{
-			perror(ft_check_file(fd_inp,fd_out,argv[1],argv[2]));
-			exit(EXIT_FAILURE);
+			child[1] = fork();
+			if(child[1] == 0)
+				second_child(argv[3], argv[4], envp);
+			else
+			{
+				close(g_pipe_nb[0]);
+				close(g_pipe_nb[1]);
+				waitpid(child[0],&status,0);
+				waitpid(child[1],&status,0);	
+			}
 		}
 	}
 	else
@@ -50,5 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		write(1, "Error arguments\n", 17);
 		exit(EXIT_FAILURE);	
 	}
-	return (0);
+	return (WEXITSTATUS(status));
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:50:03 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 11:02:17 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/10 08:46:24 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ size_t	ft_strlen(const char *str);
 int		skip(int i, char const *s, int c);
 void	*fr_ee(char **words, int j);
 void	free_two(char **table);
-void	parent_process(char *argv, int file, char **envp);
-void	child_process(char *argv, int file, char **envp);
+void	first_child(char *argv, char *name_file, char **envp);
+void	second_child(char *argv, char *name_file, char **envp);
 char	*ft_check_file(int fd_inp, int fd_out, char *str1, char *str2);
 
 #endif
