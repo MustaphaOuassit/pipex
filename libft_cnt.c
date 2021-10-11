@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:59:53 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/09 11:02:56 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:33:55 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,21 @@ char	*ft_check_file(int fd_inp, int fd_out, char *str1, char *str2)
 	if(fd_out < 0)
 		return(str2);
 	return(NULL);
+}
+
+int		is_path(char *cmd)
+{
+	int i;
+
+	i = 0;
+	if(cmd)
+	{
+		while (cmd[i])
+		{
+			if(cmd[i] == '/')
+				return(1);
+			i++;
+		}	
+	}
+	return(0);
 }

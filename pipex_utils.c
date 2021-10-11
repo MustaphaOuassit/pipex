@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 08:44:18 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/11 13:25:41 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:34:29 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,14 @@ void	first_child(char *argv, char *name_file, char **envp)
 		}
 		else
 		{
-			if(cmd[0])
+			if(is_path(cmd[0]))
+				perror(cmd[0]);
+			else
+			{
+				if(cmd[0])
 				write(1, cmd[0], ft_strlen(cmd[0]));
-			write(1,": command not found\n",20);
+				write(1,": command not found\n",20);	
+			}
 			exit(0);
 		}	
 	}
@@ -159,9 +164,14 @@ void	second_child(char *argv, char *name_file, char **envp)
 		}
 		else
 		{
-			if(cmd[0])
-				write(1, cmd[0], ft_strlen(cmd[0]));
-			write(1,": command not found\n",20);
+			if(is_path(cmd[0]))
+				perror(cmd[0]);
+			else
+			{
+				if(cmd[0])
+					write(1, cmd[0], ft_strlen(cmd[0]));
+				write(1,": command not found\n",20);	
+			}
 			exit(127);
 		}		
 	}
