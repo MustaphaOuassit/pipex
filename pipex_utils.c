@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 08:44:18 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/10 08:44:58 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/11 13:25:41 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ char	*get_path(char **envp, char *cmd)
 
 	i = 0;
 	path = NULL;
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
+	if ((cmd[0] == '/') && (access(cmd, F_OK)) == 0)
+	{
+		return (cmd);	
+	}
 	while (envp[i] != '\0')
 	{
 		line = ft_split(envp[i], '=');
@@ -90,17 +92,30 @@ void	first_child(char *argv, char *name_file, char **envp)
 	if(fd_inp > 0)
 	{
 		cmd = ft_split(argv, ' ');
-		path = get_path(envp, cmd[0]);
+		if(!cmd[0])
+			path = NULL;
+		else
+		{
+			if(argv[0] == '/')
+				path = argv;
+			else
+				path = get_path(envp, cmd[0]);	
+		}
 		if (path)
 		{
 			close(g_pipe_nb[0]);
 			dup2(fd_inp, STDIN_FILENO);
 			dup2(g_pipe_nb[1], STDOUT_FILENO);
-			execve(path, cmd, envp);
+			if(execve(path, cmd, envp) == -1)
+			{
+				perror(cmd[0]);	
+				exit(EXIT_FAILURE);
+			}
 		}
 		else
 		{
-			write(1, cmd[0], ft_strlen(cmd[0]));
+			if(cmd[0])
+				write(1, cmd[0], ft_strlen(cmd[0]));
 			write(1,": command not found\n",20);
 			exit(0);
 		}	
@@ -122,17 +137,30 @@ void	second_child(char *argv, char *name_file, char **envp)
 	if(fd_out > 0)
 	{
 		cmd = ft_split(argv, ' ');
-		path = get_path(envp, cmd[0]);
+		if(!cmd[0])
+			path = NULL;
+		else
+		{
+			if(argv[0] == '/')
+				path = argv;
+			else
+				path = get_path(envp, cmd[0]);	
+		}
 		if (path)
 		{
 			close(g_pipe_nb[1]);
 			dup2(g_pipe_nb[0], STDIN_FILENO);
 			dup2(fd_out, STDOUT_FILENO);
-			execve(path, cmd, envp);
+			if(execve(path, cmd, envp) == -1)
+			{
+				perror(cmd[0]);	
+				exit(127);
+			}
 		}
 		else
 		{
-			write(1, cmd[0], ft_strlen(cmd[0]));
+			if(cmd[0])
+				write(1, cmd[0], ft_strlen(cmd[0]));
 			write(1,": command not found\n",20);
 			exit(127);
 		}		
