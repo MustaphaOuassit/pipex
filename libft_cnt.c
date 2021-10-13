@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:59:53 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/12 16:48:58 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:26:18 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,26 +66,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 char	*ft_check_file(int fd_inp, int fd_out, char *str1, char *str2)
 {
-	if(fd_inp < 0)
-		return(str1);
-	if(fd_out < 0)
-		return(str2);
-	return(NULL);
+	if (fd_inp < 0)
+		return (str1);
+	if (fd_out < 0)
+		return (str2);
+	return (NULL);
 }
 
-int		is_path(char *cmd)
+int	is_path(char *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(cmd)
+	if (cmd)
 	{
 		while (cmd[i])
 		{
-			if(cmd[i] == '/')
-				return(1);
+			if (cmd[i] == '/')
+				return (1);
 			i++;
 		}	
 	}
-	return(0);
+	return (0);
 }

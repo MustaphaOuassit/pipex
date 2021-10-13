@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:50:03 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/12 16:30:13 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:34:21 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	first_child(char *argv, char *name_file, char **envp);
 void	second_child(char *argv, char *name_file, char **envp);
 char	*ft_check_file(int fd_inp, int fd_out, char *str1, char *str2);
 int		is_path(char *cmd);
-void	detect_path_one(char *path,int fd_inp,char **cmd,char **envp);
-void	detect_path_two(char *path,int fd_inp,char **cmd,char **envp);
+void	detect_path_one(char *path, int fd_inp, char **cmd, char **envp);
+void	detect_path_two(char *path, int fd_inp, char **cmd, char **envp);
 void	exit_arguments(void);
-
+void	end_process(int child1, int child2);
 #endif

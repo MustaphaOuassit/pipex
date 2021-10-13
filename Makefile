@@ -6,7 +6,7 @@
 #    By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:43:38 by mouassit          #+#    #+#              #
-#    Updated: 2021/10/01 12:29:19 by mouassit         ###   ########.fr        #
+#    Updated: 2021/10/13 09:27:28 by mouassit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRC = pipex.c \
 	libft.c \
 	libft_utils.c \
 	libft_cnt.c \
-	pipex_utils.c
+	pipex_utils.c \
+	detect_path.c
 
 all : $(NAME)
 
