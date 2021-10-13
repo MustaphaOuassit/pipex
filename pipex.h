@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:50:03 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/13 09:34:21 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:57:42 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ int		is_path(char *cmd);
 void	detect_path_one(char *path, int fd_inp, char **cmd, char **envp);
 void	detect_path_two(char *path, int fd_inp, char **cmd, char **envp);
 void	exit_arguments(void);
-void	end_process(int child1, int child2);
+int		end_process(int child1, int child2);
 #endif

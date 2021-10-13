@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/13 09:32:12 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:55:31 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 			if (child[1] == 0)
 				second_child(argv[3], argv[4], envp);
 			else
-				end_process(child[0], child[1]);
+				status = end_process(child[0], child[1]);
 		}
 	}
 	else

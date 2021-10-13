@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   detect_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouassit <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 09:25:55 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/13 09:31:32 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:58:37 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exit_arguments(void)
 	exit(EXIT_FAILURE);
 }
 
-void	end_process(int child1, int child2)
+int	end_process(int child1, int child2)
 {
 	int	status;
 
@@ -80,4 +80,5 @@ void	end_process(int child1, int child2)
 	close(g_pipe_nb[1]);
 	waitpid(child1, &status, 0);
 	waitpid(child2, &status, 0);
+	return (status);
 }
