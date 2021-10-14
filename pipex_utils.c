@@ -80,14 +80,13 @@ char	*get_path(char **envp, char *cmd)
 	return (path);
 }
 
-void	first_child(char *argv, char *name_file, char **envp)
+void	first_child(char *argv, char *name_file, char **envp, t_fd fd)
 {
 	char	**cmd;
 	char	*path;
-	int		fd_inp;
 
-	fd_inp = open(name_file, O_RDONLY);
-	if (fd_inp > 0)
+	fd.inp = open(name_file, O_RDONLY);
+	if (fd.inp > 0)
 	{
 		cmd = ft_split(argv, ' ');
 		if (!cmd[0])
@@ -99,7 +98,7 @@ void	first_child(char *argv, char *name_file, char **envp)
 			else
 				path = get_path(envp, cmd[0]);
 		}
-		detect_path_one(path, fd_inp, cmd, envp);
+		detect_path_one(path, fd, cmd, envp);
 	}
 	else
 	{
@@ -108,14 +107,13 @@ void	first_child(char *argv, char *name_file, char **envp)
 	}
 }
 
-void	second_child(char *argv, char *name_file, char **envp)
+void	second_child(char *argv, char *name_file, char **envp, t_fd fd)
 {
 	char	**cmd;
 	char	*path;
-	int		fd_out;
 
-	fd_out = open(name_file, O_WRONLY | O_CREAT | O_TRUNC | O_RDONLY, 0777);
-	if (fd_out > 0)
+	fd.out = open(name_file, O_WRONLY | O_CREAT | O_TRUNC | O_RDONLY, 0777);
+	if (fd.out > 0)
 	{
 		cmd = ft_split(argv, ' ');
 		if (!cmd[0])
@@ -127,7 +125,7 @@ void	second_child(char *argv, char *name_file, char **envp)
 			else
 				path = get_path(envp, cmd[0]);
 		}
-		detect_path_two(path, fd_out, cmd, envp);
+		detect_path_two(path, fd, cmd, envp);
 	}
 	else
 	{

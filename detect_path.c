@@ -12,13 +12,13 @@
 
 #include "pipex.h"
 
-void	detect_path_one(char *path, int fd_inp, char **cmd, char **envp)
+void	detect_path_one(char *path, t_fd fd, char **cmd, char **envp)
 {
 	if (path)
 	{
-		close(g_pipe_nb[0]);
-		dup2(fd_inp, STDIN_FILENO);
-		dup2(g_pipe_nb[1], STDOUT_FILENO);
+		close(fd.pipe[0]);
+		dup2(fd.inp, STDIN_FILENO);
+		dup2(fd.pipe[1], STDOUT_FILENO);
 		if (execve(path, cmd, envp) == -1)
 		{
 			perror(cmd[0]);
@@ -39,13 +39,13 @@ void	detect_path_one(char *path, int fd_inp, char **cmd, char **envp)
 	}
 }
 
-void	detect_path_two(char *path, int fd_out, char **cmd, char **envp)
+void	detect_path_two(char *path, t_fd fd, char **cmd, char **envp)
 {
 	if (path)
 	{
-		close(g_pipe_nb[1]);
-		dup2(g_pipe_nb[0], STDIN_FILENO);
-		dup2(fd_out, STDOUT_FILENO);
+		close(fd.pipe[1]);
+		dup2(fd.pipe[0], STDIN_FILENO);
+		dup2(fd.out, STDOUT_FILENO);
 		if (execve(path, cmd, envp) == -1)
 		{
 			perror(cmd[0]);
@@ -72,12 +72,12 @@ void	exit_arguments(void)
 	exit(EXIT_FAILURE);
 }
 
-int	end_process(int child1, int child2)
+int	end_process(int child1, int child2, t_fd fd)
 {
 	int	status;
 
-	close(g_pipe_nb[0]);
-	close(g_pipe_nb[1]);
+	close(fd.pipe[0]);
+	close(fd.pipe[1]);
 	waitpid(child1, &status, 0);
 	waitpid(child2, &status, 0);
 	return (status);

@@ -6,7 +6,7 @@
 /*   By: mouassit <mouassit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:42:40 by mouassit          #+#    #+#             */
-/*   Updated: 2021/10/13 09:55:31 by mouassit         ###   ########.fr       */
+/*   Updated: 2021/10/14 11:02:21 by mouassit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	child[2];
-	int	status;
-	int	i;
+	int		*child;
+	t_fd	fd;
+	int		status;
 
-	i = 0;
+	child = (int *)malloc(sizeof(int) * 2);
+	fd.pipe = (int *)malloc(sizeof(int) * 2);
 	if (argc == 5)
 	{
-		pipe(g_pipe_nb);
+		pipe(fd.pipe);
 		child[0] = fork();
 		if (child[0] == 0)
-			first_child(argv[2], argv[1], envp);
+			first_child(argv[2], argv[1], envp, fd);
 		else
 		{
 			child[1] = fork();
 			if (child[1] == 0)
-				second_child(argv[3], argv[4], envp);
+				second_child(argv[3], argv[4], envp, fd);
 			else
-				status = end_process(child[0], child[1]);
+				status = end_process(child[0], child[1], fd);
 		}
 	}
 	else
